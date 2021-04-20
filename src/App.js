@@ -1,8 +1,9 @@
+import Mock from "./components/Mock";
 
 function App() {
   return (
     <div className="App">
-     Home :)
+      <Mock />
     </div>
   );
 }
