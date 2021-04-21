@@ -1,74 +1,64 @@
 import { find, filter } from "lodash";
 
 export const typeDefs = `
-type Author {
+
+type Name {
     id: Int!
     firstName: String
     lastName: String
-    """
-    the list of Posts by this author
-    """
-    posts: [Post]
+    person: Person
 }
 
-type Post {
+type Person {
     id: Int!
-    title: String
-    author: Author
-    votes: Int
-    melon: Boolean
+    name: Name
+    finSightProfile: FinSightProfile
+}
+
+type FinSightProfile {
+    id: Int!
+    person: Person
 }
 
 # the schema allows the following query:
 type Query {
-    posts: [Post]
-    author(id: Int!): Author
-}
+    finSightProfile: [FinSightProfile]
+    person(id: Int!): Person
+    name(id: Int!): Name
+  }
+`;
 
-# this schema allows the following mutation:
-type Mutation {
-    upvotePost (
-        postId: Int!
-        ): Post
-    }
-    `;
-
-// example data
-const authors = [
-  { id: 1, firstName: "Tom", lastName: "Coleman" },
-  { id: 2, firstName: "Sashko", lastName: "Stubailo" },
-  { id: 3, firstName: "Mikhail", lastName: "Novikov" },
+const names = [
+  { id: 1, firstName: "Ted", lastName: "Lasso" },
+  { id: 2, firstName: "Mike", lastName: "Winnet" },
 ];
 
-const posts = [
-  { id: 1, authorId: 1, title: "Introduction to GraphQL", votes: 2 },
-  { id: 2, authorId: 2, title: "Welcome to Meteor", votes: 3 },
-  { id: 3, authorId: 2, title: "Advanced GraphQL", votes: 1 },
-  { id: 4, authorId: 3, title: "Launchpad is Cool", votes: 7 },
+const persons = [
+  { id: 1, nameId: 1 },
+  { id: 2, nameId: 2 },
 ];
+
+const finSightProfiles = [{ id: 1, personId: 1 }];
 
 export const resolvers = {
   Query: {
-    posts: () => posts,
-    author: (_, { id }) => find(authors, { id }),
+    finSightProfile: () => finSightProfiles,
+    person: (_, { id }) => find(persons, { id }),
+    name: (_, { id }) => find(names, { id }),
   },
 
-  Mutation: {
-    upvotePost: (_, { postId }) => {
-      const post = find(posts, { id: postId });
-      if (!post) {
-        throw new Error(`Couldn't find post with id ${postId}`);
-      }
-      post.votes += 1;
-      return post;
-    },
+  Name: {
+    person: (name) => filter(persons, { nameId: names.id }),
   },
 
-  Author: {
-    posts: (author) => filter(posts, { authorId: author.id }),
+  Person: {
+    finSightProfile: (person) =>
+      find(finSightProfiles, { personId: person.id }),
+    name: (person) => find(names, { id: person.nameId }),
   },
 
-  Post: {
-    author: (post) => find(authors, { id: post.authorId }),
+  FinSightProfile: {
+    person: (finSightProfile) =>
+      find(persons, { id: finSightProfile.personId }),
   },
 };
