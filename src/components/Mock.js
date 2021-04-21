@@ -3,7 +3,6 @@ import { makeExecutableSchema } from "@graphql-tools/schema";
 import { addMocksToSchema } from "@graphql-tools/mock";
 import { graphql } from "graphql";
 import { resolvers, typeDefs } from "./resolvers";
-// import { resolvers, typeDefs } from "./resolversControl";
 
 function Mock() {
   const schema = makeExecutableSchema({ typeDefs, resolvers });
@@ -29,7 +28,7 @@ function Mock() {
 
   const runQuery = () => {
     graphql(schemaWithMocks, query).then((result) =>
-      console.log("Got result", result)
+      console.log("Productfy ProtoQuery", result)
     );
   };
 
@@ -39,8 +38,17 @@ function Mock() {
   }, []);
 
   return (
-    <div>
-      <p>This is a test for mocking GraphQL Schema</p>
+    <div
+      style={{
+        width: "100vw",
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#f4f5f7",
+      }}
+    >
+      <img src="./images/productfy.png" alt="productfy logo" />
     </div>
   );
 }
