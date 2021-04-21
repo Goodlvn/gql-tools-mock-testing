@@ -1,4 +1,5 @@
 import { find, filter } from "lodash";
+// import faker from "faker";
 
 export const typeDefs = `
 
@@ -62,3 +63,16 @@ export const resolvers = {
       find(persons, { id: finSightProfile.personId }),
   },
 };
+
+// Testing Faker.js
+// const ranName = faker.name.findName();
+// const ranEmail = faker.internet.email();
+// const ranAddress = faker.address.streetAddress();
+// const ranAccount = faker.finance.account();
+// const ranCC = faker.finance.creditCardNumber();
+
+// console.log(`random name ${ranName}`);
+// console.log(`random email ${ranEmail}`);
+// console.log(`random address ${ranAddress}`);
+// console.log(`random account number ${ranAccount}`);
+// console.log(`random credit card number ${ranCC}`);

@@ -25,7 +25,6 @@ function Mock() {
               }
           }
   `;
-
   const runQuery = () => {
     graphql(schemaWithMocks, query).then((result) =>
       console.log("Productfy ProtoQuery", result)
