@@ -1,5 +1,38 @@
 import { find, filter } from "lodash";
 
+export const typeDefs = `
+type Author {
+    id: Int!
+    firstName: String
+    lastName: String
+    """
+    the list of Posts by this author
+    """
+    posts: [Post]
+}
+
+type Post {
+    id: Int!
+    title: String
+    author: Author
+    votes: Int
+    melon: Boolean
+}
+
+# the schema allows the following query:
+type Query {
+    posts: [Post]
+    author(id: Int!): Author
+}
+
+# this schema allows the following mutation:
+type Mutation {
+    upvotePost (
+        postId: Int!
+        ): Post
+    }
+    `;
+
 // example data
 const authors = [
   { id: 1, firstName: "Tom", lastName: "Coleman" },
@@ -14,7 +47,7 @@ const posts = [
   { id: 4, authorId: 3, title: "Launchpad is Cool", votes: 7 },
 ];
 
-const resolvers = {
+export const resolvers = {
   Query: {
     posts: () => posts,
     author: (_, { id }) => find(authors, { id }),
@@ -39,5 +72,3 @@ const resolvers = {
     author: (post) => find(authors, { id: post.authorId }),
   },
 };
-
-export default resolvers;
